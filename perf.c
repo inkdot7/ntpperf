@@ -790,3 +790,27 @@ err:
 	fprintf(stderr, "\t-h              print this help message\n");
 	return 1;
 }
+
+void calc_udp_checksum(unsigned char *buf, int data_len)
+{
+	uint32_t sum = 0;
+	uint16_t carry;
+	int i;
+
+	sum  = htons(0x11);
+	sum += ((uint16_t *)buf)[-2];
+	sum += ((uint16_t *)buf)[-8]; /* IP dest */
+	sum += ((uint16_t *)buf)[-7];
+	sum += ((uint16_t *)buf)[-6]; /* IP src */
+	sum += ((uint16_t *)buf)[-5];
+	sum += ((uint16_t *)buf)[-4]; /* UDP header */
+	sum += ((uint16_t *)buf)[-3];
+	sum += ((uint16_t *)buf)[-2];
+	sum += ((uint16_t *)buf)[-1];
+	for (i = 0; i < data_len / 2; i++)
+		sum += ((uint16_t *)buf)[i];
+	while ((carry = sum >> 16))
+		sum = (sum & 0xffff) + carry;
+
+	((uint16_t *)buf)[-1] = ~sum;
+}

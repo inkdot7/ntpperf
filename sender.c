@@ -227,6 +227,11 @@ static int make_packet(struct sender_request *request, struct sender_config *con
 #endif
 	}
 
+	/* Placed in other source file to defeat alias problems
+	 * with members set using non-uint16_t pointers above.
+	 */
+	calc_udp_checksum(buf, data_len);
+
 	return len + data_len;
 }
 

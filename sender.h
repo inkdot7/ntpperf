@@ -59,4 +59,6 @@ int sender_start(struct sender_config *config);
 bool sender_send_requests(int sender_fd, struct sender_request *requests, int num);
 void sender_stop(int sender_fd);
 
+void calc_udp_checksum(unsigned char *buf, int data_len);
+
 #endif
