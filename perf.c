@@ -494,7 +494,7 @@ static void print_header(struct config *config) {
 
 	printf("rate   clients |  lost invalid %15s |%s\n",
 	       config->mode <= NTP_INTERLEAVED ? "basic  xleave" : "delay sync/fw",
-	       offset ? "    min    mean     max stddev" : "");
+	       offset ? "    min    mean     max  stddev" : "");
 }
 
 static int get_lost_packets(struct perf_stats *stats, struct config *config) {
@@ -522,7 +522,7 @@ static void print_stats(struct perf_stats *stats, struct config *config, int rat
 	       100.0 * stats->basic_responses / stats->requests,
 	       100.0 * stats->interleaved_responses / stats->requests);
 	if (stats->offset_updates > 1)
-		printf("  %+7.0f %+7.0f %+7.0f %6.0f",
+		printf("  %+7.0f %+7.0f %+7.0f %7.1f",
 		       1e9 * stats->min_offset, 1e9 * stats->sum_offset / stats->offset_updates,
 		       1e9 * stats->max_offset,
 		       1e9 * sqrt((stats->sum2_offset -
