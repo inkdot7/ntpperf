@@ -373,6 +373,10 @@ static bool process_response(struct pcap_pkthdr *header, const u_char *data, str
 		offset = diff_ts(&remote_tx, &remote_rx);
 	}
 
+	printf ("server %7.0lf offset_rx %7.0lf\n",
+		1e9*diff_ts(&remote_tx, &remote_rx),
+		1e9*diff_ts(&local_rx, &remote_tx));
+
 	stats->offset_updates++;
 	stats->sum_offset += offset;
 	stats->sum2_offset += offset * offset;
